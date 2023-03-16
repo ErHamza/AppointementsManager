@@ -1,7 +1,6 @@
 package com.rdv.gestionrdvs.EndPoints;
 
 
-
 import com.rdv.gestionrdvs.RdvTools.Rdvtools;
 import com.rdv.gestionrdvs.Services.Irdv;
 import com.rdv.gestionrdvs.entities.Doctor;
@@ -20,14 +19,14 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v0/rdv/docotr")
+@RequestMapping("/api/v0/doctor/rdv")
 public class ManageRdvByDoctor {
     private static final int MAX_NUMBER_OF_APPOINTMENTS_PER_DAY = 10;
     private final Irdv irdv;
     private final Rdvtools rdvtools;
 
 
-   @PutMapping("rdv/cancel/{id}")
+   @PutMapping("cancel/{id}")
    public ResponseEntity CancelRdv(@AuthenticationPrincipal User user, @PathVariable Long id){
        if (id==null || irdv.findRdvById(id).isEmpty()){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -41,9 +40,12 @@ public class ManageRdvByDoctor {
        return ResponseEntity.ok().build();
    }
 
+   @GetMapping("list")
+   public List<Rdv> getListRdvDoctor(@AuthenticationPrincipal Doctor doctor){
+       return irdv.listRdvbyDoctor(doctor);
+   }
 
-
-   @PutMapping("rdv/postpone")
+   @PutMapping("postpone")
     public ResponseEntity postpone(@RequestBody Map<?,?> map ,@AuthenticationPrincipal User user){
 
        Long id = Long.parseLong( map.get("rdv_id").toString());

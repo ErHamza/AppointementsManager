@@ -66,20 +66,21 @@ public class ManageRdvs {
     //Cancel an Appointment
     @PutMapping("cancel/{id}")
     public ResponseEntity<?> cancelRdv(@PathVariable("id") Long id, @AuthenticationPrincipal User user){
-
         Rdv rdv =  irdv.findRdvById(id).orElse(null);
-        if (!user.getUser_id().equals(rdv.getPatient().getUser_id()) || !user.getRole().
-                equals(Role.ADMIN)){
+
+
+        if (!user.getUser_id().equals(rdv.getPatient().getUser_id()) ){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not authorized to perform this action");
 
         }
+
         irdv.cancelRdv(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("postpone")
     public ResponseEntity<String> postpone(@RequestBody Map<?,?> map ,@AuthenticationPrincipal User user){
-        System.out.println(user);
+
         Long id = Long.parseLong( map.get("rdv_id").toString());
         Rdv rdv = irdv.findRdvById(id).orElse(null);
 
@@ -98,10 +99,6 @@ public class ManageRdvs {
         if (number_Appointements >=MAX_NUMBER_OF_APPOINTMENTS_PER_DAY ){
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("schedule is full");
         }
-        System.out.println("-------");
-        System.out.println(timestamp);
-        System.out.println(System.currentTimeMillis());
-        System.out.println(dateTime);
         rdv.setDate_rdv(dateTime);
         irdv.addRdv(rdv);
         return ResponseEntity.ok().build();

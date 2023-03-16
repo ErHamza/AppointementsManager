@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @DiscriminatorValue("patient")
 
-
 public class Patient extends User{
 
     public Patient( Long patient_id, String name, String password, String email, int phone_number) {

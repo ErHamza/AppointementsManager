@@ -73,9 +73,10 @@ public class AdminManagement {
 
     @GetMapping("rdv/list")
     public ResponseEntity<?> getListRdvDoctor
-            (@AuthenticationPrincipal User user , @PathParam("doctor_id") Long id){
+            (@AuthenticationPrincipal User user , @RequestParam("doctor_id") Long id){
         Doctor doctor = idoctor.findDoctor(id).orElse(null);
-        if (doctor==null){
+        if (doctor==null)
+        {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("give a valid doctor id");
         }
         List<Rdv> rdvs =  irdv.listRdvbyDoctor(doctor);
