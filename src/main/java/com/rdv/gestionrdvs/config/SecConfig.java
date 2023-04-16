@@ -29,8 +29,7 @@ public class SecConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests().
-                requestMatchers("/api/v0/manage/**"
-                        ,"/auth/**","/api/v0/admin/**", "/api/**")
+                requestMatchers("/**")
                 .permitAll()
 
                 .requestMatchers("/consultation/**").hasRole(Role.PATIENT.name())

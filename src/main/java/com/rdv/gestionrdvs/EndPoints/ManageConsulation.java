@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 
-@RequestMapping("consultations")
+@RequestMapping("api/v0/consultations")
 public class ManageConsulation {
     private final Irdv irdv;
     private final Iconsultation iconsulation;

@@ -79,6 +79,7 @@ package com.rdv.gestionrdvs.config;
 //}
 
 
+import com.rdv.gestionrdvs.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -112,7 +113,7 @@ public class JwtService {
     }
 
     public String generateToken(
-            Map<String, Object> extraClaims,
+            Map<String, Long> extraClaims,
             UserDetails userDetails
     ) {
         return Jwts
@@ -120,7 +121,8 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24*1000))
+
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

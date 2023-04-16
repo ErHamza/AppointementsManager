@@ -28,6 +28,9 @@ public abstract class User implements UserDetails {
     private String email;
     private int phone_number;
 
+    @Column
+    private String image_name;
+
 
     @Enumerated(EnumType.STRING)
     private Role role;

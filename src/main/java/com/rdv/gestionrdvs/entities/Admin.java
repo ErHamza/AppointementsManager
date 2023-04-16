@@ -18,8 +18,8 @@ import java.util.List;
 
 public class Admin extends User  {
 
-    public Admin(Long id, String name, String password, String email, int phone_number) {
-        super(id, name, password, email, phone_number, Role.ADMIN);
+    public Admin(Long id, String name, String password, String email, int phone_number, String image_name) {
+        super(id, name, password, email, phone_number, image_name,Role.ADMIN);
     }
 
 

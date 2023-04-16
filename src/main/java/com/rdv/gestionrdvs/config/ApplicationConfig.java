@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartResolver;
+
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
@@ -30,7 +32,12 @@ public UserDetailsService userDetailsService() {
         return config.getAuthenticationManager();
 
     }
-      @Bean
+
+
+
+
+
+    @Bean
       public AuthenticationProvider authenticationProvider() {
             DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
             authProvider.setUserDetailsService(userDetailsService());

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class Patient extends User{
 
-    public Patient( Long patient_id, String name, String password, String email, int phone_number) {
-        super(patient_id , name, password, email, phone_number, Role.PATIENT);
+    public Patient( Long patient_id, String name, String password, String email, int phone_number, String image_name) {
+        super(patient_id , name, password, email, phone_number,  image_name , Role.PATIENT);
     }
 
 
@@ -28,11 +28,6 @@ public class Patient extends User{
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(Role.PATIENT.name()));
     }
-
-
-
-
-
     @Override
     public String getUsername() {
         return this.getEmail();

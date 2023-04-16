@@ -18,15 +18,14 @@ import java.util.List;
 public class Doctor extends User{
 
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "speciality")
     @JsonIgnoreProperties("doctor")
     private Speciality speciality;
 
-    public Doctor( Long id, String name, String password, String email, int phone_number
-            ) {
-        super(id , name, password, email, phone_number,Role.DOCTOR);
-
+    public Doctor( Long id, String name, String password, String email, int phone_number, String image_name
+           ,Speciality speciality ) {
+        super(id , name, password, email, phone_number,image_name,Role.DOCTOR);
 
 
     }
