@@ -2,6 +2,7 @@ package com.rdv.gestionrdvs.Services;
 
 import com.rdv.gestionrdvs.Repositories.ConsulationRepository;
 import com.rdv.gestionrdvs.entities.Consultation;
+import com.rdv.gestionrdvs.entities.Doctor;
 import com.rdv.gestionrdvs.entities.Rdv;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,10 @@ public class IconsultationImpl implements Iconsultation {
     @Override
     public List<Consultation> listConsultation() {
         return consulationRepository.findAll();
+    }
+
+    @Override
+    public List<Consultation> findConsultations(Doctor doctor) {
+        return consulationRepository.findByRdv_Doctor(doctor);
     }
 }

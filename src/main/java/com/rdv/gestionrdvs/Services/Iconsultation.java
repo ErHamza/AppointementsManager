@@ -1,6 +1,7 @@
 package com.rdv.gestionrdvs.Services;
 
 import com.rdv.gestionrdvs.entities.Consultation;
+import com.rdv.gestionrdvs.entities.Doctor;
 import com.rdv.gestionrdvs.entities.Rdv;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,6 @@ import java.util.List;
 public interface Iconsultation {
     Consultation addConsultation(Consultation consultation);
     List<Consultation> listConsultation();
+    List<Consultation> findConsultations(Doctor doctor);
 
 }

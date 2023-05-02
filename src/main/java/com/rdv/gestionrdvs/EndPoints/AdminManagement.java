@@ -60,19 +60,12 @@ public class AdminManagement {
             ObjectMapper objectMapper = new ObjectMapper();
             Doctor doctor;
             doctor = objectMapper.readValue(doctor_string , Doctor.class);
-            System.out.println(doctor);
-            //maybe not the best approach
-            Doctor new_doctor = new Doctor(null,
-                    doctor.getUsername()
-                    , doctor.getPassword(), doctor.getEmail(), doctor.getPhone_number() ,
-                    image.getOriginalFilename(), doctor.getSpeciality() );
-            String email = doctor.getEmail();
             if(idoctor.findByEmail(doctor.getEmail()).isPresent()){
             return ResponseEntity.status(HttpStatus.IM_USED).body("this email already exists");
                  }
             //TODO finish later
 //        emailService.sendEmail("heerraji123@gmail.com","done","welcome");
-            return ResponseEntity.ok(authService.register(new_doctor, image));
+            return ResponseEntity.ok(authService.register(doctor, image));
         } catch(JsonProcessingException e){
             return ResponseEntity.badRequest().body("problem"+ e);
         } catch (IOException e) {
@@ -107,5 +100,8 @@ public class AdminManagement {
         List<Rdv> rdvs =  irdv.listRdvbyDoctor(doctor);
         return ResponseEntity.ok(rdvs);
     }
+
+
+
 
 }

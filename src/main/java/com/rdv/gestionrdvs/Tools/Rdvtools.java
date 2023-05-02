@@ -1,4 +1,4 @@
-package com.rdv.gestionrdvs.RdvTools;
+package com.rdv.gestionrdvs.Tools;
 
 import com.rdv.gestionrdvs.Services.Ipatient;
 import com.rdv.gestionrdvs.Services.Irdv;

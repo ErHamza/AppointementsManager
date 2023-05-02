@@ -5,17 +5,26 @@ package com.rdv.gestionrdvs.EndPoints;
 import com.rdv.gestionrdvs.Authentification.AuthService;
 import com.rdv.gestionrdvs.Repositories.UserRepository;
 import com.rdv.gestionrdvs.Services.Idoctor;
+import com.rdv.gestionrdvs.Services.Ispeciality;
 import com.rdv.gestionrdvs.config.JwtService;
 import com.rdv.gestionrdvs.entities.*;
 import com.rdv.gestionrdvs.Services.Ipatient;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -28,12 +37,22 @@ public class AccountsManagement {
     private final Idoctor idoctor;
     private final Ipatient ipatient;
     private final UserRepository userRepository;
+    private final Ispeciality ispeciality;
 
     @CrossOrigin
     @GetMapping("doctors-list")
-    public List<Doctor> listerDocs(){
+    public List<Doctor> listerDocs(@RequestParam(value = "speciality-id", required = false) Long id){
+        if(id != null && id !=0){
+            Speciality speciality = ispeciality.findById(id);
+            return idoctor.doctorsListBySpeciality(speciality);
+
+        }
+
         return idoctor.doctorsList();
     }
+
+//    @GetMapping("doctors-list")
+//    public
 
 
     @GetMapping("doctors/{id}")
@@ -73,6 +92,9 @@ public class AccountsManagement {
 
         return ResponseEntity.ok(user);
     }
+
+
+
 
 
 

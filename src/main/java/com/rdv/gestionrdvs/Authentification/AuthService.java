@@ -35,13 +35,20 @@ public class AuthService<T> {
     private final PasswordEncoder passwordEncoder;
 
 
-    public AuthenticationResponse auhtenticate(AuthForm authForm) {
-        authenticationManager.authenticate(
+    public AuthenticationResponse auhtenticate(AuthForm authForm) throws IncorrectPasswordException {
+        try{
+            authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authForm.getUsername(),
                         authForm.getPassword()
-                )
-        );
+                ));
+
+
+        }catch( Exception e){
+            throw new IncorrectPasswordException("Incorrect Password or email");
+
+        }
+
         System.out.println("done login");
         var user = userRepository.findByEmail(authForm.getUsername()).orElseThrow();
         Map<String, Long> map = new HashMap();
@@ -59,8 +66,10 @@ public class AuthService<T> {
         ipatient.addPatient(patient);
         Patient to_retrieve = ipatient.findByEmail(patient.getEmail()).orElse(null);
         System.out.println(to_retrieve);
-        String uploadDir = "user-photos/" + patient.getUser_id() + "/display_picture";
-        FileUploadUtil.saveFile(uploadDir, image.getOriginalFilename(), image);
+        if (image != null){
+            String uploadDir = "user-photos/" + patient.getUser_id() + "/display_picture";
+            FileUploadUtil.saveFile(uploadDir, image.getOriginalFilename(), image);
+        }
 
         Map<String, Long> map = new HashMap();
         assert to_retrieve != null;
@@ -81,8 +90,6 @@ public class AuthService<T> {
             //because the Id is assigned automatically by the database I had to save it and retrieve it again
             // so I can know the Id of the new user
             Doctor to_retrieve = idoctor.findByEmail(doctor.getEmail()).orElse(null);
-            System.out.println(to_retrieve);
-            System.out.println(image.isEmpty());
             String uploadDir = "doctors-photos/" + to_retrieve.getUser_id() + "/display_picture";
             try{
                 FileUploadUtil.saveFile(uploadDir, image.getOriginalFilename(), image);

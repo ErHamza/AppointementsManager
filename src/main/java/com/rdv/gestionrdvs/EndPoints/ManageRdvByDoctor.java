@@ -1,16 +1,24 @@
 package com.rdv.gestionrdvs.EndPoints;
 
 
-import com.rdv.gestionrdvs.RdvTools.Rdvtools;
+import com.rdv.gestionrdvs.Tools.Rdvtools;
 import com.rdv.gestionrdvs.Services.Irdv;
 import com.rdv.gestionrdvs.entities.Doctor;
+import com.rdv.gestionrdvs.entities.Patient;
 import com.rdv.gestionrdvs.entities.Rdv;
 import com.rdv.gestionrdvs.entities.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,6 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/v0/doctor/rdv")
 public class ManageRdvByDoctor {
     private static final int MAX_NUMBER_OF_APPOINTMENTS_PER_DAY = 10;
@@ -69,6 +78,8 @@ public class ManageRdvByDoctor {
        irdv.addRdv(rdv);
        return ResponseEntity.ok().build();
    }
+
+
 
 
 }

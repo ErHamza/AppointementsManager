@@ -2,6 +2,7 @@ package com.rdv.gestionrdvs.Services;
 
 import com.rdv.gestionrdvs.Repositories.RdvRepository;
 import com.rdv.gestionrdvs.entities.Doctor;
+import com.rdv.gestionrdvs.entities.Patient;
 import com.rdv.gestionrdvs.entities.Rdv;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -47,7 +48,8 @@ public class IrdvImpl implements Irdv {
     @Override
     public void cancelRdv(Long id) {
         Rdv rdv = findRdvById(id).orElse(null);
-        rdv.setIsCanceld(true);
+        assert rdv!= null;
+        rdv.setIsCanceled(true);
     }
 
 
@@ -60,6 +62,11 @@ public class IrdvImpl implements Irdv {
     @Override
     public List<Rdv> listRdvbyDoctor(Doctor doctor)
     {
-    return rdvRepository.findByDoctor(doctor);
+    return rdvRepository.findByDoctorAndIsDoneAndIsCanceled(doctor, false , false);
+    }
+
+    @Override
+    public List<Rdv> listRdvByPatient(Patient patient) {
+        return rdvRepository.findByPatient(patient);
     }
 }

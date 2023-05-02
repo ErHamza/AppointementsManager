@@ -1,5 +1,5 @@
 package com.rdv.gestionrdvs.EndPoints;
-import com.rdv.gestionrdvs.RdvTools.Rdvtools;
+import com.rdv.gestionrdvs.Tools.Rdvtools;
 import com.rdv.gestionrdvs.Services.Idoctor;
 import com.rdv.gestionrdvs.Services.Ipatient;
 import com.rdv.gestionrdvs.Services.Irdv;
@@ -18,6 +18,7 @@ import java.util.*;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v0/rdv")
+@CrossOrigin
 public class ManageRdvs {
     private static final int MAX_NUMBER_OF_APPOINTMENTS_PER_DAY = 10;
     private Ipatient ipatient;
@@ -42,7 +43,6 @@ public class ManageRdvs {
         if (!patient_.getUser_id().equals(user.getUser_id()) ){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Please login with your account");
         }
-
         long timestamp =Long.parseLong( map.get("timestamp").toString() );
         Instant instant= Instant.ofEpochMilli(timestamp);
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
@@ -52,14 +52,21 @@ public class ManageRdvs {
         if (number_of_Appointments >= MAX_NUMBER_OF_APPOINTMENTS_PER_DAY){
             return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("we can't accept more Rdv");
         }
-        Rdv rdv = new Rdv(null , dateTime ,false,doctor , patient_  );
+        Rdv rdv = new Rdv(null , dateTime ,false,false,doctor , patient_    );
         irdv.addRdv(rdv);
         return ResponseEntity.ok(rdv);
     }
     @GetMapping("list")
-     public List<Rdv> listerRdv(){
-        return irdv.listerRdv();
+     public ResponseEntity<List<Rdv>> listerRdvByPatient(@AuthenticationPrincipal User user){
+
+         if(user == null){
+             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+         }
+        Patient patient = ipatient.findPatient(user.getUser_id()).orElse(null);
+        return ResponseEntity.ok(irdv.listRdvByPatient(patient));
     }
+
+
 
 
 

@@ -17,7 +17,8 @@ public class Rdv {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rdv_id;
     private LocalDateTime date_rdv;
-    private Boolean isCanceld;
+    private Boolean isCanceled;
+    private Boolean isDone;
 
 
 

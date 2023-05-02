@@ -19,9 +19,10 @@ public abstract class User implements UserDetails {
     private Long user_id;
 
     @Column(length = 40)
-    private String username;
+    private String fullname;
 
     @Column( length = 200)
+
     private String password;
 
     @Column(unique = true, length = 40 )

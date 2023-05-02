@@ -1,6 +1,7 @@
 package com.rdv.gestionrdvs.Services;
 
 import com.rdv.gestionrdvs.entities.Doctor;
+import com.rdv.gestionrdvs.entities.Patient;
 import com.rdv.gestionrdvs.entities.Rdv;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,5 @@ public interface Irdv {
 
     Long countRdv(LocalDateTime start, LocalDateTime end,Long doctor_id);
     List<Rdv> listRdvbyDoctor(Doctor doctor);
+    List<Rdv> listRdvByPatient(Patient patient);
 }
